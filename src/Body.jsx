@@ -4,11 +4,12 @@ import Footer from "./components/Footer";
 import axios from "axios";
 import { BASE_URL } from "./utils/constants";
 import NavBar from "./components/NavBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "./utils/userSlice";
 function Body(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = useSelector((store) => store.user);
   const fetchUser = async () =>{
     try{
       const res = await axios.get(BASE_URL + "/profile/view", {
@@ -24,7 +25,9 @@ function Body(){
     }
   };
   useEffect(()=>{
-    fetchUser();
+    if(!userData){
+      fetchUser();
+    }
   }, []);
   return(
     <>
